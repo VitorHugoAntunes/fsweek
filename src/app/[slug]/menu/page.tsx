@@ -18,9 +18,11 @@ const RestaurantMenuPage = async ({
   params,
   searchParams,
 }: RestaurantMenuPageProps) => {
-  const { consumptionMethod } = await searchParams;
-
   const { slug } = await params;
+  const { consumptionMethod } = await searchParams;
+  if (!isConsumptionMethodValid(consumptionMethod)) {
+    return notFound();
+  }
   const restaurant = await db.restaurant.findUnique({
     where: { slug },
     include: {
@@ -29,21 +31,17 @@ const RestaurantMenuPage = async ({
       },
     },
   });
-
-  if (!isConsumptionMethodValid(consumptionMethod)) {
-    return notFound();
-  }
-
   if (!restaurant) {
     return notFound();
   }
-
   return (
     <div>
-  <RestaurantHeader restaurant={restaurant} />
-  <RestaurantCategories restaurant={restaurant} />
-  </div>
-);
+      <RestaurantHeader restaurant={restaurant} />
+      <RestaurantCategories restaurant={restaurant} />
+    </div>
+  );
 };
 
 export default RestaurantMenuPage;
+
+// http://localhost:3000/fsw-donalds/menu?consumptionMethod=dine_in
