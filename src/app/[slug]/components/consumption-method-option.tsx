@@ -32,7 +32,6 @@ const ConsumptionMethodOption = ({
           />
         </div>
         <Button variant="secondary" className="rounded-full" asChild>
-          {/* asChild  serve para passar o botão como filho do componente */}
           <Link href={`/${slug}/menu?consumptionMethod=${option}`}>
             {buttonText}
           </Link>
